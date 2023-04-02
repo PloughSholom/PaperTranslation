@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 
 ## Build
-FROM golang:1.19 AS build
+FROM golang:1.19-alpine AS build
 
-ENV GO111MODULE=on \
+ENV GO111MODULE=auto \
     GOPROXY=https://goproxy.cn,direct\
     CGO_ENABLED=0 \
     GOOS=linux \
@@ -12,6 +12,7 @@ WORKDIR /app
 
 COPY go.mod ./
 COPY go.sum ./
+COPY . .
 RUN go mod download
 
 COPY *.go ./

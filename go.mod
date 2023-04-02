@@ -2,6 +2,8 @@ module github.com/PloughSholom/PaperTranslation
 
 go 1.19
 
+//replace github.com/PloughSholom/PaperTranslation => ../PaperTranslation
+
 require (
 	github.com/gogf/gf/v2 v2.3.3
 	google.golang.org/grpc v1.54.0
