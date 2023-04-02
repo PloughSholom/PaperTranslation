@@ -1,11 +1,11 @@
 package src
 
 import (
-	"PaperTranslation/src/proto"
 	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/PloughSholom/PaperTranslation/src/proto"
 	"google.golang.org/grpc"
 	"io"
 	"log"
@@ -87,7 +87,7 @@ const (
 	defaultName = "world"
 )
 
-func DialToGrpc(s string) []string{
+func DialToGrpc(s string) []string {
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)

@@ -1,6 +1,6 @@
 package main
 
-import "PaperTranslation/src"
+import "github.com/PloughSholom/PaperTranslation/src"
 
 /*
 func main() {
