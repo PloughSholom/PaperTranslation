@@ -1,4 +1,4 @@
-module PaperTranslation
+module github.com/PloughSholom/PaperTranslation
 
 go 1.19
 
