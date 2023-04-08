@@ -11,12 +11,6 @@ import (
 	"unicode"
 )
 
-var (
-	ModelGPT3_5 = "gpt-3.5-turbo"
-	GPTURL      = "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions"
-	//GPTURL = "https://chat-gpt.aurorax.cloud/v1/chat/completions"
-)
-
 // exp GPT现用请求块
 type Message struct {
 	Role    string `json:"role"`
@@ -53,15 +47,15 @@ func NewCquest() *CQuest {
 	temCQ := new(CQuest)
 	temCQ.apiKey = ""
 	temCQ.N = 1
-	temCQ.prompt = DefPro
+	temCQ.prompt = TitlePrompt
 	temCQ.Max_tokens = 200
 	temCQ.Temperature = 0.3
 	temCQ.User = ""
-	temCQ.Model = ModelGPT3_5
+	temCQ.Model = ModelGPT
 	temCQ.Messages = make([]Message, 0, 60)
 	return temCQ
 }
-func BibToCQ(bib BibStruct) *CQuest {
+func BibToCQ(bib BibStruct,DefP1 Message,DefP2 Message) *CQuest {
 	temCQ := NewCquest()
 	fmt.Println(bib.Title)
 	s := ""
@@ -138,25 +132,23 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int) string {
 	}
 }
 
-var keych = make(chan string)
-var Keytem = []string{}
 
 func ResetKeys() {
 	for {
-		close(keych)
-		keych = make(chan string)
+		close(Keych)
+		Keych = make(chan string)
 		for _, v := range Keytem {
-			keych <- v
+			Keych <- v
 		}
 		fmt.Println("已重置")
 		time.Sleep(time.Second * 3)
 	}
 }
 func getKey() string {
-	return <-keych
+	return <-Keych
 }
 func ReadKeys() error {
-	fileHanle, err := os.OpenFile("./keys.txt", os.O_RDONLY, 0666)
+	fileHanle, err := os.OpenFile(KeyPath, os.O_RDONLY, 0666)
 	if err != nil {
 		return err
 	}

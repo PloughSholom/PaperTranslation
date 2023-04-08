@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  goweb:
+    image: 2aaba1e434fe
+    ports:
+      - "8888:8888"
+  pyweb:
+    image: 7436e623a251
+    ports:
+      - "50051:50051"

@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 ## Build
 FROM golang:1.19-alpine AS build
 
@@ -8,26 +6,18 @@ ENV GO111MODULE=auto \
     CGO_ENABLED=0 \
     GOOS=linux \
     GOARCH=amd64
-WORKDIR /app
+WORKDIR /
 
-COPY go.mod ./
-COPY go.sum ./
-COPY . .
+COPY .  .
 RUN go mod download
-
-COPY *.go ./
 
 RUN go build -o /PaperTranslation
 
 ## Deploy
-FROM gcr.io/distroless/base-debian10
+FROM scratch
 
 WORKDIR /
-
+COPY /keys.txt /keys.txt
 COPY --from=build /PaperTranslation /PaperTranslation
-
-EXPOSE 8080
-
-USER nonroot:nonroot
 
 ENTRYPOINT ["/PaperTranslation"]

@@ -1,6 +1,8 @@
 package main
 
-import "github.com/PloughSholom/PaperTranslation/src"
+import (
+	"github.com/PloughSholom/PaperTranslation/src"
+)
 
 /*
 func main() {
@@ -45,5 +47,9 @@ func main() {
 }*/
 
 func main() {
+	src.EnvParse()
 	src.GoWebServer()
+	//fmt.Println("start")
+	//fmt.Println(src.DialToGrpc("black"))
+
 }

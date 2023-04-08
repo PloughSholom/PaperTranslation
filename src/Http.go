@@ -82,19 +82,13 @@ func PostJson(v any, URL string, methon string, headadd HeadAddFunc) ([]byte, er
 	return all, err
 }
 
-const (
-	address     = "localhost:50051"
-	defaultName = "world"
-)
-
 func DialToGrpc(s string) []string {
-	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(Address2Py, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 	c := proto.NewMyServiceClient(conn)
-
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	r, err := c.Gethomo(ctx, &proto.HomoReq{
