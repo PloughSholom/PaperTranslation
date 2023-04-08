@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"os"
 	"strings"
 	"time"
 	"unicode"
@@ -55,7 +53,7 @@ func NewCquest() *CQuest {
 	temCQ.Messages = make([]Message, 0, 60)
 	return temCQ
 }
-func BibToCQ(bib BibStruct,DefP1 Message,DefP2 Message) *CQuest {
+func BibToCQ(bib BibStruct, DefP1 Message, DefP2 Message) *CQuest {
 	temCQ := NewCquest()
 	fmt.Println(bib.Title)
 	s := ""
@@ -131,7 +129,14 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int) string {
 		cq.Messages[0].Content = strings.Replace(cq.Messages[0].Content, "only in chinese", "only in chinese!!", 1)
 	}
 }
-
+func KeysStart() {
+	err := ReadKeys()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	go ResetKeys()
+}
 
 func ResetKeys() {
 	for {
@@ -148,34 +153,14 @@ func getKey() string {
 	return <-Keych
 }
 func ReadKeys() error {
-	fileHanle, err := os.OpenFile(KeyPath, os.O_RDONLY, 0666)
-	if err != nil {
-		return err
-	}
-	defer func(fileHanle *os.File) {
-		err = fileHanle.Close()
-		if err != nil {
-
-		}
-	}(fileHanle)
-	readBytes, err := ioutil.ReadAll(fileHanle)
-	if err != nil {
-		return err
-	}
-	results0 := strings.Split(string(readBytes), "\n")
-	for _, i := range results0 {
-		i = strings.Replace(i, "\r", "", -1)
-		if len(i) > 0 {
-			Keytem = append(Keytem, i)
-		}
-	}
+	Keytem = strings.Split(Keys, ",")
+	fmt.Println(Keytem)
 	if len(Keytem) < 1 {
 		return errors.New("keytem不能为空")
 	}
 	return nil
 }
 func dealS(s string) string {
-
 	return s
 }
 func CheckVal(s string, num int) bool {

@@ -48,6 +48,7 @@ func main() {
 
 func main() {
 	src.EnvParse()
+	src.KeysStart()
 	src.GoWebServer()
 	//fmt.Println("start")
 	//fmt.Println(src.DialToGrpc("black"))

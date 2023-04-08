@@ -1,15 +1,15 @@
 version: "3.9"
 services:
   goweb:
-    image: 2aaba1e434fe
+    image: c2c796b9d89398ac19290e1e4590b25c9dd1e9e9779a12e1558f1f9c630b2b97
     ports:
       - "${PORT}:${PORT}"
     environment:
       - PORT
       - MODELGPT
       - GPTURL
-      - KEYPATH
+      - KEYS
   pyweb:
     image: 7436e623a251
     ports:
-      - "${PORT2PY}:${PORT2PY}"
+      - "50051:50051"

@@ -2,18 +2,9 @@ package src
 
 import (
 	"flag"
-	"fmt"
+	"os"
 	"strconv"
 )
-
-func init() {
-	err := ReadKeys()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	go ResetKeys()
-}
 
 var (
 	DefKey = "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"
@@ -40,24 +31,41 @@ var (
 	Address2Py = "pyweb:50051"
 	Port       int
 	Port2Py    int
-	ModelGPT = "gpt-3.5-turbo"
-	GPTurl   = "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions"
-	KeyPath  string
- 	Keych = make(chan string)
- 	Keytem = []string{}
+	ModelGPT   = "gpt-3.5-turbo"
+	GPTurl     = "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions"
+	Keys       string
+	Keych      = make(chan string)
+	Keytem     = []string{}
 )
 
 func EnvParse() {
 	PORT := flag.Int("PORT", 8888, "")
 	PORT2PY := flag.Int("PORT2PY", 50051, "")
 	MODELGPT := flag.String("MODELGPT", "gpt-3.5-turbo", "")
-	GPTURL := flag.String("GPTURL", "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions", "")
-	KEYPATH := flag.String("KEYPATH", "./keys.txt", "是txt文件")
+	GPTURL := flag.String("GPTURL", "https://service-016z4tdo-1317247263.usw.apigw.tencentcs.com/release/v1/chat/completions", "")
+	KEYS := flag.String("KEYS", "", "用,分隔")
 	flag.Parse()
 	Port = *PORT
 	Port2Py = *PORT2PY
 	Address2Py = "pyweb:" + strconv.Itoa(Port2Py)
 	ModelGPT = *MODELGPT
 	GPTurl = *GPTURL
-	KeyPath = *KEYPATH
+	Keys = *KEYS
+	if os.Getenv("PORT") != "" {
+		Port, _ = strconv.Atoi(os.Getenv("PORT"))
+	}
+	if os.Getenv("PORT2PY") != "" {
+		Port2Py, _ = strconv.Atoi(os.Getenv("PORT2PY"))
+		Address2Py = "pyweb:" + strconv.Itoa(Port2Py)
+	}
+	if os.Getenv("MODELGPT") != "" {
+		ModelGPT = os.Getenv("MODELGPT")
+	}
+	if os.Getenv("GPTURL") != "" {
+		GPTurl = os.Getenv("GPTURL")
+	}
+	if os.Getenv("KEYS") != "" {
+		Keys = os.Getenv("KEYS")
+	}
+
 }

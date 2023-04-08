@@ -17,7 +17,6 @@ RUN go build -o /PaperTranslation
 FROM scratch
 
 WORKDIR /
-COPY /keys.txt /keys.txt
 COPY --from=build /PaperTranslation /PaperTranslation
 
 ENTRYPOINT ["/PaperTranslation"]
