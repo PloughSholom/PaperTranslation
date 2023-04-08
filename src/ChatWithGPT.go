@@ -95,7 +95,7 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int) string {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-		//fmt.Println("收到gpt消息:\n" + string(all) + "\n")
+		fmt.Println("收到gpt消息:\n" + string(all) + "\n")
 		temRE := *new(CResponse)
 		temRE.Choices = make([]Choices, 1, 10)
 		err = json.Unmarshal(all, &temRE)
