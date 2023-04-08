@@ -32,7 +32,7 @@ var (
 	Port       int
 	Port2Py    int
 	ModelGPT   = "gpt-3.5-turbo"
-	GPTurl     = "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions"
+	GPTurl     = "https://api.openai.com/v1/chat/completions"
 	Keys       string
 	Keych      = make(chan string)
 	Keytem     = []string{}
@@ -42,7 +42,7 @@ func EnvParse() {
 	PORT := flag.Int("PORT", 8888, "")
 	PORT2PY := flag.Int("PORT2PY", 50051, "")
 	MODELGPT := flag.String("MODELGPT", "gpt-3.5-turbo", "")
-	GPTURL := flag.String("GPTURL", "https://service-016z4tdo-1317247263.usw.apigw.tencentcs.com/release/v1/chat/completions", "")
+	GPTURL := flag.String("GPTURL", "https://api.openai.com/v1/chat/completions", "")
 	KEYS := flag.String("KEYS", "", "用,分隔")
 	flag.Parse()
 	Port = *PORT
