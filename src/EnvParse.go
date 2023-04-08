@@ -40,24 +40,24 @@ var (
 	Address2Py = "pyweb:50051"
 	Port       int
 	Port2Py    int
-	ModelGPT   = "gpt-3.5-turbo"
-	GPTURL     = "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions"
-	KeyPath    string
+	ModelGPT = "gpt-3.5-turbo"
+	GPTurl   = "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions"
+	KeyPath  string
  	Keych = make(chan string)
  	Keytem = []string{}
 )
 
 func EnvParse() {
-	port := flag.Int("port", 8888, "")
-	port2py := flag.Int("port2py", 50051, "")
-	modelgpt := flag.String("modelgpt", "gpt-3.5-turbo", "")
-	gpturl := flag.String("gpturl", "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions", "")
-	keypath := flag.String("keypath", "./keys.txt", "是txt文件")
+	PORT := flag.Int("PORT", 8888, "")
+	PORT2PY := flag.Int("PORT2PY", 50051, "")
+	MODELGPT := flag.String("MODELGPT", "gpt-3.5-turbo", "")
+	GPTURL := flag.String("GPTURL", "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/v1/chat/completions", "")
+	KEYPATH := flag.String("KEYPATH", "./keys.txt", "是txt文件")
 	flag.Parse()
-	Port = *port
-	Port2Py = *port2py
+	Port = *PORT
+	Port2Py = *PORT2PY
 	Address2Py = "pyweb:" + strconv.Itoa(Port2Py)
-	ModelGPT = *modelgpt
-	GPTURL = *gpturl
-	KeyPath = *keypath
+	ModelGPT = *MODELGPT
+	GPTurl = *GPTURL
+	KeyPath = *KEYPATH
 }

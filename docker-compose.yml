@@ -3,8 +3,13 @@ services:
   goweb:
     image: 2aaba1e434fe
     ports:
-      - "8888:8888"
+      - "${PORT}:${PORT}"
+    environment:
+      - PORT
+      - MODELGPT
+      - GPTURL
+      - KEYPATH
   pyweb:
     image: 7436e623a251
     ports:
-      - "50051:50051"
+      - "${PORT2PY}:${PORT2PY}"

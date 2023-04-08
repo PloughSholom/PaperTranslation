@@ -93,7 +93,7 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int) string {
 		hf := new(HeadFun)
 		hf.AppendHead("Authorization", fmt.Sprintf("%s %s", "Bearer", cq.apiKey))
 		hf.AppendHead("Content-Type", "application/json")
-		all, err := PostJson(cq, GPTURL, "POST", hf)
+		all, err := PostJson(cq, GPTurl, "POST", hf)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
