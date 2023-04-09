@@ -58,7 +58,7 @@ func AbstractReqInJson(r *ghttp.Request) {
 		temB.Title = req.Content
 		temB.MapVar = make(map[string]any)
 		temB.MapVar["title"] = &temB.Title
-		tem := SendQuestToGPTAndReceive(BibToCQ(*temB, DefPA1, DefPA2, 3000), req.Num, req.Option, "abstract")
+		tem := SendQuestToGPTAndReceive(BibToCQ(*temB, DefPA1, DefPA2, 2000), req.Num, req.Option, "abstract")
 		tem = strings.Replace(tem, "《", "", -1)
 		tem = strings.Replace(tem, "》", "", -1)
 		temres := Res{

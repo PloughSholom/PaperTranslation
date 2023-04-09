@@ -109,9 +109,9 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) string
 			Mess = strings.Split(temRE.Choices[0].Message.Content, "|")
 		}
 		for _, v := range Mess {
-			if CheckVal(v, reqnum) {
+			if methon == "abstract" || CheckVal(v, reqnum) {
 				messnum++
-				if op == 1 {
+				if op == 1 && methon == "title" {
 					temv := ReplaceS(v)
 					remess += temv
 					remess += ","
@@ -129,7 +129,7 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) string
 			}
 		}
 		fmt.Println("再次请求")
-		cq.Messages[0].Content = strings.Replace(cq.Messages[0].Content, "only in chinese", "only in chinese!!", 1)
+		//cq.Messages[0].Content = strings.Replace(cq.Messages[0].Content, "only in chinese", "only in chinese!!", 1)
 	}
 }
 func KeysStart() {
@@ -168,9 +168,6 @@ func dealS(s string) string {
 }
 func CheckVal(s string, num int) bool {
 	if len(s) < 1 {
-		return false
-	}
-	if strings.Contains(s, "翻译") && num < 3 {
 		return false
 	}
 	var Ccount, Pcount, Lcount float64
