@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	DefKey = "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"
+	//DefKey = "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"
 	DefPT1 = Message{
 		Role:    "user",
 		Content: TitlePrompt,
@@ -32,7 +32,7 @@ var (
 	Port       int
 	Port2Py    int
 	ModelGPT   = "gpt-3.5-turbo"
-	GPTurl     = "https://service-016z4tdo-1317247263.usw.apigw.tencentcs.com/release/v1/chat/completions"
+	GPTurl     = "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/release/v1/chat/completions"
 	Keys       = "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"
 	Keych      = make(chan string)
 	Keytem     = []string{}
@@ -42,7 +42,7 @@ func EnvParse() {
 	PORT := flag.Int("PORT", 8888, "")
 	PORT2PY := flag.Int("PORT2PY", 50051, "")
 	MODELGPT := flag.String("MODELGPT", "gpt-3.5-turbo", "")
-	GPTURL := flag.String("GPTURL", "https://service-016z4tdo-1317247263.usw.apigw.tencentcs.com/release/v1/chat/completions", "")
+	GPTURL := flag.String("GPTURL", "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/release/v1/chat/completions", "")
 	KEYS := flag.String("KEYS", "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", "用,分隔")
 	flag.Parse()
 	Port = *PORT
