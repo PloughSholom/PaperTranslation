@@ -53,9 +53,9 @@ func NewCquest() *CQuest {
 	temCQ.Messages = make([]Message, 0, 60)
 	return temCQ
 }
-func BibToCQ(bib BibStruct, DefP1 Message, DefP2 Message) *CQuest {
+func BibToCQ(bib BibStruct, DefP1 Message, DefP2 Message, tokens int64) *CQuest {
 	temCQ := NewCquest()
-	fmt.Println(bib.Title)
+	temCQ.Max_tokens = tokens
 	s := ""
 	for k, _ := range bib.MapVar {
 		if _, ok := bib.MapVar[k].(*int); ok {
@@ -73,7 +73,7 @@ func BibToCQ(bib BibStruct, DefP1 Message, DefP2 Message) *CQuest {
 	})
 	return temCQ
 }
-func SendQuestToGPTAndReceive(cq *CQuest, num int, op int) string {
+func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) string {
 	if num < 1 {
 		num = 1
 	}
@@ -101,10 +101,13 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int) string {
 		err = json.Unmarshal(all, &temRE)
 		//fmt.Println(temRE.Choices[0].Message.Content)
 		//fmt.Println(string(all))
-		if strings.Contains(temRE.Choices[0].Message.Content, "|") == false {
-			continue
+		var Mess []string
+		if methon == "title" {
+			if strings.Contains(temRE.Choices[0].Message.Content, "|") == false {
+				continue
+			}
+			Mess = strings.Split(temRE.Choices[0].Message.Content, "|")
 		}
-		Mess := strings.Split(temRE.Choices[0].Message.Content, "|")
 		for _, v := range Mess {
 			if CheckVal(v, reqnum) {
 				messnum++

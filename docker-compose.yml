@@ -9,6 +9,7 @@ services:
       - MODELGPT
       - GPTURL
       - KEYS
+      - RESPTIME
   pyweb:
     image: 7436e623a251
     ports:
