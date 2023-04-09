@@ -123,6 +123,9 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) (strin
 			Mess = strings.Split(temRE.Choices[0].Message.Content, "|")
 		}
 		if methon == "abstract" {
+			if temRE.Choices[0].Message.Content == "" {
+				continue
+			}
 			Mess = append(Mess, temRE.Choices[0].Message.Content)
 		}
 		for _, v := range Mess {

@@ -11,6 +11,7 @@ services:
       - KEYS
       - RESPTIME
       - TEST
+      - TESTTEXT
   pyweb:
     image: 7436e623a251
     ports:
