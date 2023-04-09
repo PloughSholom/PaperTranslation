@@ -1,6 +1,7 @@
 package src
 
 import (
+	"fmt"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"strings"
@@ -22,7 +23,7 @@ func TitleReqInJson(r *ghttp.Request) {
 	err := r.Parse(&req)
 	if err != nil {
 		temres := Res{
-			Code: 1, Error: err.Error(),
+			Code: 400, Error: err.Error(),
 		}
 		r.Response.WriteJsonExit(temres)
 	} else {
@@ -32,8 +33,15 @@ func TitleReqInJson(r *ghttp.Request) {
 		temB.Title = req.Content
 		temB.MapVar = make(map[string]any)
 		temB.MapVar["title"] = &temB.Title
-		tem := SendQuestToGPTAndReceive(BibToCQ(*temB, DefPT1, DefPT2, 200), req.Num, req.Option, "title")
+		tem, err := SendQuestToGPTAndReceive(BibToCQ(*temB, DefPT1, DefPT2, 200), req.Num, req.Option, "title")
 		//tem = strings.Replace(tem, "\n", "", -1)
+		if err != nil {
+			fmt.Println(err)
+			temres := Res{
+				Code: 400, Error: err.Error(),
+			}
+			r.Response.WriteJsonExit(temres)
+		}
 		tem = strings.Replace(tem, "《", "", -1)
 		tem = strings.Replace(tem, "》", "", -1)
 		temres := Res{
@@ -48,7 +56,7 @@ func AbstractReqInJson(r *ghttp.Request) {
 	err := r.Parse(&req)
 	if err != nil {
 		temres := Res{
-			Code: 1, Error: err.Error(),
+			Code: 400, Error: err.Error(),
 		}
 		r.Response.WriteJsonExit(temres)
 	} else {
@@ -58,7 +66,14 @@ func AbstractReqInJson(r *ghttp.Request) {
 		temB.Title = req.Content
 		temB.MapVar = make(map[string]any)
 		temB.MapVar["title"] = &temB.Title
-		tem := SendQuestToGPTAndReceive(BibToCQ(*temB, DefPA1, DefPA2, 2000), req.Num, req.Option, "abstract")
+		tem, err := SendQuestToGPTAndReceive(BibToCQ(*temB, DefPA1, DefPA2, 2000), req.Num, req.Option, "abstract")
+		if err != nil {
+			fmt.Println(err)
+			temres := Res{
+				Code: 400, Error: err.Error(),
+			}
+			r.Response.WriteJsonExit(temres)
+		}
 		tem = strings.Replace(tem, "《", "", -1)
 		tem = strings.Replace(tem, "》", "", -1)
 		temres := Res{

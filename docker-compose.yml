@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   goweb:
-    image: 9a20dc32ce415bdb99ec8fff036b5d482395b7ed07415de880b254f6c232413e
+    image: d7cce2b60c4d
     ports:
       - "${PORT}:${PORT}"
     environment:
@@ -10,6 +10,7 @@ services:
       - GPTURL
       - KEYS
       - RESPTIME
+      - TEST
   pyweb:
     image: 7436e623a251
     ports:

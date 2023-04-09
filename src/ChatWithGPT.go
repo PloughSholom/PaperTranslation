@@ -32,11 +32,17 @@ type CQuest struct {
 type Choices struct {
 	Message Message `json:"message"`
 }
+type Error struct {
+	Message string `json:"message"`
+	Type    string `json:"type"`
+	Param   string `json:"param"`
+	Code    string `json:"code"`
+}
 type CResponse struct {
 	Object  string    `json:"object"`
 	Id      string    `json:"id"`
 	Choices []Choices `json:"choices"`
-	Error   error     `json:"error"`
+	Error   Error     `json:"error"`
 	Usage   Usage     `json:"usage"`
 }
 
@@ -73,8 +79,8 @@ func BibToCQ(bib BibStruct, DefP1 Message, DefP2 Message, tokens int64) *CQuest 
 	})
 	return temCQ
 }
-func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) string {
-	if num < 1 {
+func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) (string, error) {
+	if num < 1 || methon == "abstract" {
 		num = 1
 	}
 	var reqnum = 0
@@ -82,6 +88,9 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) string
 	messnum := 0
 	for {
 		reqnum++
+		if reqnum > 5 {
+			return "", errors.New("翻译出错:重试次数过多")
+		}
 		for {
 			if cq.apiKey != "" {
 				break
@@ -98,15 +107,23 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) string
 		fmt.Println("收到gpt消息:\n" + string(all) + "\n")
 		temRE := *new(CResponse)
 		temRE.Choices = make([]Choices, 1, 10)
-		err = json.Unmarshal(all, &temRE)
-		//fmt.Println(temRE.Choices[0].Message.Content)
-		//fmt.Println(string(all))
+		if Test == 0 {
+			err = json.Unmarshal(all, &temRE)
+		} else {
+			temRE.Choices[0].Message.Content = "这是一个测试|这也是一个测试|这还也是一个测试|这依旧是一个测试|这仍然是一个测试"
+		}
+		if temRE.Error.Message != "" {
+			return "", errors.New("翻译出错:" + temRE.Error.Code)
+		}
 		var Mess []string
 		if methon == "title" {
 			if strings.Contains(temRE.Choices[0].Message.Content, "|") == false {
 				continue
 			}
 			Mess = strings.Split(temRE.Choices[0].Message.Content, "|")
+		}
+		if methon == "abstract" {
+			Mess = append(Mess, temRE.Choices[0].Message.Content)
 		}
 		for _, v := range Mess {
 			if methon == "abstract" || CheckVal(v, reqnum) {
@@ -124,7 +141,7 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) string
 				}
 				if num == messnum {
 					fmt.Println(remess)
-					return remess
+					return remess, nil
 				}
 			}
 		}
@@ -170,6 +187,9 @@ func CheckVal(s string, num int) bool {
 	if len(s) < 1 {
 		return false
 	}
+	if num < 3 && strings.Contains(s, "翻译") {
+		return false
+	}
 	var Ccount, Pcount, Lcount float64
 	for _, v := range s {
 		if unicode.Is(unicode.Han, v) {
@@ -187,6 +207,5 @@ func CheckVal(s string, num int) bool {
 	if Lcount/(Ccount+Lcount) > 0.1+float64(num)*0.05 {
 		return false
 	}
-
 	return true
 }

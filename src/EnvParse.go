@@ -2,6 +2,7 @@ package src
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"strconv"
 )
@@ -37,6 +38,7 @@ var (
 	Keych      = make(chan string)
 	Keytem     = []string{}
 	RespTime   int64
+	Test       int64
 )
 
 func EnvParse() {
@@ -46,6 +48,7 @@ func EnvParse() {
 	GPTURL := flag.String("GPTURL", "https://service-6hpy0xnm-1317247263.sg.apigw.tencentcs.com/release/v1/chat/completions", "")
 	KEYS := flag.String("KEYS", "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", "用,分隔")
 	RESPTIME := flag.Int64("RESPTIME", 60, "因为gpt延迟太高了")
+	TEST := flag.Int64("TEST", 0, "1的话只会回复这是一个测试")
 	flag.Parse()
 	Port = *PORT
 	Port2Py = *PORT2PY
@@ -54,6 +57,7 @@ func EnvParse() {
 	GPTurl = *GPTURL
 	Keys = *KEYS
 	RespTime = *RESPTIME
+	Test = *TEST
 	if os.Getenv("PORT") != "" {
 		Port, _ = strconv.Atoi(os.Getenv("PORT"))
 	}
@@ -73,5 +77,15 @@ func EnvParse() {
 	if os.Getenv("RESPTIME") != "" {
 		RespTime, _ = strconv.ParseInt(os.Getenv("RESPTIME"), 10, 64)
 	}
-
+	if os.Getenv("TEST") != "" {
+		Test, _ = strconv.ParseInt(os.Getenv("TEST"), 10, 64)
+	}
+	fmt.Println("env:")
+	fmt.Println(Port)
+	fmt.Println(Address2Py)
+	fmt.Println(ModelGPT)
+	fmt.Println(GPTurl)
+	fmt.Println(Keys)
+	fmt.Println(RespTime)
+	fmt.Println(Test)
 }
