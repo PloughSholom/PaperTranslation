@@ -110,7 +110,7 @@ func SendQuestToGPTAndReceive(cq *CQuest, num int, op int, methon string) (strin
 		if Test == 0 {
 			err = json.Unmarshal(all, &temRE)
 		} else {
-			temRE.Choices[0].Message.Content = "这是一个测试|这也是一个测试|这还也是一个测试|这依旧是一个测试|这仍然是一个测试"
+			temRE.Choices[0].Message.Content = TestText
 		}
 		if temRE.Error.Message != "" {
 			return "", errors.New("翻译出错:" + temRE.Error.Code)

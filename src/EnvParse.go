@@ -39,6 +39,7 @@ var (
 	Keytem     = []string{}
 	RespTime   int64
 	Test       int64
+	TestText   string
 )
 
 func EnvParse() {
@@ -49,6 +50,7 @@ func EnvParse() {
 	KEYS := flag.String("KEYS", "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", "用,分隔")
 	RESPTIME := flag.Int64("RESPTIME", 60, "因为gpt延迟太高了")
 	TEST := flag.Int64("TEST", 0, "1的话只会回复这是一个测试")
+	TESTTEXT := flag.String("TESTTEXT", "这是一个测试|这也是一个测试|这还也是一个测试|这依旧是一个测试|这仍然是一个测试", "测试")
 	flag.Parse()
 	Port = *PORT
 	Port2Py = *PORT2PY
@@ -58,6 +60,7 @@ func EnvParse() {
 	Keys = *KEYS
 	RespTime = *RESPTIME
 	Test = *TEST
+	TestText = *TESTTEXT
 	if os.Getenv("PORT") != "" {
 		Port, _ = strconv.Atoi(os.Getenv("PORT"))
 	}
@@ -80,6 +83,9 @@ func EnvParse() {
 	if os.Getenv("TEST") != "" {
 		Test, _ = strconv.ParseInt(os.Getenv("TEST"), 10, 64)
 	}
+	if os.Getenv("TESTTEXT") != "" {
+		TestText = os.Getenv("TESTTEXT")
+	}
 	fmt.Println("env:")
 	fmt.Println(Port)
 	fmt.Println(Address2Py)
@@ -88,4 +94,5 @@ func EnvParse() {
 	fmt.Println(Keys)
 	fmt.Println(RespTime)
 	fmt.Println(Test)
+	fmt.Println(TestText)
 }

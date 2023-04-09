@@ -3,6 +3,7 @@ package src
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"github.com/PloughSholom/PaperTranslation/src/proto"
@@ -56,6 +57,7 @@ func PostJson(v any, URL string, methon string, headadd HeadAddFunc) ([]byte, er
 				return conn, nil
 			},
 			ResponseHeaderTimeout: time.Second * time.Duration(RespTime),
+			TLSClientConfig:       &tls.Config{InsecureSkipVerify: true},
 		},
 	}
 	body := bytes.NewReader(temreq)

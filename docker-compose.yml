@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   goweb:
-    image: d7cce2b60c4d
+    image: da43c2886538
     ports:
       - "${PORT}:${PORT}"
     environment:

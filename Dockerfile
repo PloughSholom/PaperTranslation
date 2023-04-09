@@ -15,8 +15,6 @@ RUN go build -o /PaperTranslation
 
 ## Deploy
 FROM scratch
-
 WORKDIR /
 COPY --from=build /PaperTranslation /PaperTranslation
-
 ENTRYPOINT ["/PaperTranslation"]
